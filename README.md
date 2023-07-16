@@ -7,6 +7,8 @@
 - signup
   - get email, first name, last name, privacy & policy accept
   - return verify url
+- verify
+  - active user
 - signin
   - create session
   - return cookie
