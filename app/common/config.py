@@ -19,6 +19,11 @@ class GlobalSettings(BaseSettings):
     JWT_ALGORITHM: str = environ.get("JWT_ALGORITHM", "HS256")
     JWT_SECRET_KEY: str = environ.get("JWT_SECRET_KEY", "936de431dfbb55c59232f10d05c34a22bf957154f8814a3a0b88d893f58ef16957f176def0982871857aadb970a304160f4fa77968dbd4a0f6ef9cfd695d7af4")
 
+    # SESSION
+    SESSION_COOKIE_NAME: str = environ.get("SESSION_COOKIE_NAME", "nota-session")
+    SESSION_IDENTIFIER_NAME: str = environ.get("SESSION_IDENTIFIER_NAME", "general-verifier")
+    SESSION_SECRET_KEY: str = environ.get("SESSION_SECRET_KEY", RANDOM_STRING)
+
     # SQL
     DB_URL: str = environ.get("DB_URL", f"sqlite:///{BASE_DIR}/database.db")
     DB_POOL_SIZE: int = environ.get("DB_POOL_SIZE", 10)

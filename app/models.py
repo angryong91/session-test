@@ -44,7 +44,7 @@ class VerificationUrl(CamelModel):
     verification_url: str = Field(None, example="http://localhost:8080/verify?token={verification_token}")
 
 
-class QueryParamToken(CamelModel):
+class TokenQueryParam(CamelModel):
     token: str = Query(None, example="{verification_token}")
 
 
@@ -53,12 +53,19 @@ class Token(CamelModel):
     refresh_token: str = Field(None, example="{refresh_token for 60 days}")
 
 
-class UserEmail(CamelModel):
-    email: Optional[str] = Field(None, example="91angryong@gmail.com", nullable=True)
+class SessionInfo(BaseModel):
+    user_id: str
 
 
-class AuthRequest(UserEmail):
-    password: str = Field(example="{user_password}")
+class SigninPayload(CamelModel):
+    email: Optional[str] = Field(None, nullable=False, example="91angryong@gmail.com")
+    password: str = Field(None, nullable=False, example="angryong1!")
+
+
+class SignupPayload(SigninPayload):
+    first_name: str = Field(None, nullable=False, example="jeyong")
+    last_name: str = Field(None, nullable=False, example="ryu")
+    privacy_n_policy_accept: bool = Field(None, nullable=False, example=True)
 
 
 class UserInfo(CamelModel):

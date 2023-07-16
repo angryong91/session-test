@@ -7,10 +7,9 @@ from sqlalchemy import (
     func,
     Enum,
     Boolean,
-    ForeignKey,
     or_,
 )
-from sqlalchemy.orm import Session, relationship
+from sqlalchemy.orm import Session
 
 from app.database.conn import Base, db
 from app.models import SnsType, UserStatus
@@ -168,16 +167,6 @@ class Users(Base, BaseMixin):
     password = Column(String(length=100), nullable=False)
     sns_type = Column(Enum(SnsType), default=SnsType.email)
     status = Column(Enum(UserStatus), default=UserStatus.inactive)
-    withdrawal_reason = Column(String(length=255), nullable=True)
-    last_service_used = Column(DateTime, nullable=True, default=func.current_timestamp())
-
-    profile = relationship("Profiles", lazy='joined', uselist=False, backref="users")
-
-
-class Profiles(Base, BaseMixin):
-    __tablename__ = "profiles"
-    user_id = Column(String(length=36), ForeignKey('users.id', ondelete='CASCADE'), index=True)
     first_name = Column(String(length=10), nullable=True)
     last_name = Column(String(length=20), nullable=True)
-    accept_terms_agree = Column(Boolean, nullable=True)
-    marketing_agree = Column(Boolean, nullable=True, default=True)
+    privacy_n_policy_accept = Column(Boolean, nullable=True)

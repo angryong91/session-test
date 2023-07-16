@@ -4,8 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.common.consts import SETTINGS
 from app.database.conn import db
-from app.middleware.token_validator import TokenValidMiddleware
-from app.routes import auth, check
+from app.routes import auth, check, user
 
 
 def create_app():
@@ -15,7 +14,7 @@ def create_app():
             docs_url=f"/{SETTINGS.RANDOM_STRING}/swagger",
             redoc_url=f"/{SETTINGS.RANDOM_STRING}/redoc",
             debug=True
-        )
+    )
 
     # init database
     db.init_app(app, SETTINGS)
@@ -28,14 +27,11 @@ def create_app():
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.add_middleware(TokenValidMiddleware)
 
     # set routes
     app.include_router(check.router, tags=["Check"], prefix="/v1")
     app.include_router(auth.router, tags=["Authentication"], prefix="/v1")
-
-    # set because of 307 response
-    app.routes.redirect_slashes = False
+    app.include_router(user.router, tags=["User"], prefix="/v1")
 
     return app
 
@@ -43,4 +39,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True, log_level="debug")

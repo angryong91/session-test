@@ -80,6 +80,16 @@ class InvalidToken(APIException):
         )
 
 
+class InvalidSession(APIException):
+    def __init__(self, ex: Exception = None):
+        super().__init__(
+            status_code=StatusCode.HTTP_401,
+            msg="Invalid Session",
+            code=f"{StatusCode.HTTP_401}{'4'.zfill(4)}",
+            ex=ex,
+        )
+
+
 class NotAllowed(APIException):
     def __init__(self, msg: str = "Not Allowed", ex: Exception = None):
         super().__init__(
