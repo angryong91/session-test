@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.common.consts import SETTINGS
 from app.database.conn import db
+from app.middleware.logger_middleware import LoggerMiddleware
 from app.routes import auth, check, user
 
 
@@ -27,6 +28,7 @@ def create_app():
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.add_middleware(LoggerMiddleware)
 
     # set routes
     app.include_router(check.router, tags=["Check"], prefix="/v1")
@@ -39,4 +41,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True, log_level="debug")
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
